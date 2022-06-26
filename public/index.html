@@ -30,11 +30,10 @@
   <div class="container bg-light">
     <div class="row align-items-center">
       <div class="col-8">
-        <h2>
+        <h2 class="display-2">
           My mood
         </h2>
-
-        <div class="input-group">
+        <div class="input-group py-5">
           <div class="form-outline">
             <input type="search" id="song-search" class="form-control" />
             <div class="list-group" id="autocom-box">
@@ -43,9 +42,15 @@
               -->
             </div>
           </div>
-          <button type="button" class="btn btn-primary">
-            <i class="fas fa-search"></i>
+          <button type="button" class="btn btn-primary" id="search-btn">
+            <span>
+              <img id ="search-icon" src="./images/search_icon.png">
+            </span>
           </button>
+        </div>
+
+        <div class="row align-items-center" id="song-picks">
+
         </div>
 
       </div>

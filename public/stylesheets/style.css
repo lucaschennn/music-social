@@ -6,3 +6,16 @@ body {
 a {
   color: #00B7FF;
 }
+
+#autocom-box {
+  font: 2200px;
+}
+
+#search-icon {
+  width: auto;
+  max-height: 16;
+}
+
+#search-btn {
+  max-height: 36;
+}
