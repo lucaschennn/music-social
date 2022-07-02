@@ -17,10 +17,12 @@
           <a class="nav-link" href="#">Explore</a>
         </li>
       </ul>
-      <ul class="nav float-right">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Profile</a>
-        </li>
+      <ul class="nav float-right" id="right-bar">
+        <script>
+        if(1 == 1) {
+          $("#right-bar").append('<a class="nav-link" href="#">Profile</a>')
+        }
+      </script>
       </ul>
     </div>
   </nav>

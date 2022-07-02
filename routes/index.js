@@ -13,13 +13,21 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
-
   res.send(
     req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'
   )
+  //console.log(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
+
 });
 
+router.get('/test', (req, res) => {
+  res.render('test.html')
+})
+
 router.get('/profile', (req, res) => {
+  res.send(
+    req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'
+  )
   res.send(JSON.stringify(req.oidc.user, null, 2));
 });
 
