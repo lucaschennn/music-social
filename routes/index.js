@@ -8,27 +8,27 @@ const path = require("path");
 const { request } = require('express');
 const axios = require('axios');
 var express = require('express');
+const e = require("express");
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.render('index', { title: 'Express' });
-  res.send(
-    req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'
-  )
-  //console.log(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
-
+  if (req.oidc.isAuthenticated()) {
+    data = {href: "/profile", message: "Profile"}
+  }
+  else {
+    data = {href: "/login", message: "Login/Register"}
+  }
+  res.render('index', data);
 });
 
 router.get('/test', (req, res) => {
-  res.render('test.html')
+  res.render("index.pug")
 })
 
 router.get('/profile', (req, res) => {
-  res.send(
-    req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'
-  )
   res.send(JSON.stringify(req.oidc.user, null, 2));
+  console.log(res.locals)
 });
 
 router.get('/songs-list', (req, res) => {

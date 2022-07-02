@@ -19,7 +19,12 @@ const config = {
     secret: 'LONG_RANDOM_STRING'
   };
 
+//app.engine('html', require('ejs').renderFile);
+//app.set('view engine', 'html');
+
 app.use(auth(config));
+
+app.set("view engine", "pug");
 
 app.use(logger('dev'));
 app.use(express.json());

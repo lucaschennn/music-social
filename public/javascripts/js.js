@@ -13,24 +13,22 @@ searchWrapper.addEventListener("mouseleave", () => {
 });
 
 function updateSearch(e) {
-    {
-        let songs = [];
-        input = e.target.value;
-        if(input) {
-            axios
-            .get("/songs-list", {params: {"term":input}})
-            .then(res => {
-                console.log(res['data'])
-                data = res['data']['results']
-                for(var i = 0; i < data.length; i++) {
-                    songs[i] = data[i]
-                }
-                showSuggestions(songs);
-            })
-            .catch(error => {
-              console.error(error);
-            })
-        }
+    let songs = [];
+    input = e.target.value;
+    if(input.length > 2) {
+        axios
+        .get("/songs-list", {params: {"term":input}})
+        .then(res => {
+            console.log(res['data'])
+            data = res['data']['results']
+            for(var i = 0; i < data.length; i++) {
+                songs[i] = data[i]
+            }
+            showSuggestions(songs);
+        })
+        .catch(error => {
+            console.error(error);
+        })
     }
 }
 
@@ -80,6 +78,8 @@ function addSong(params) {
     var wrapper = document.createElement("div")
     wrapper.classList.add('col-2')
     wrapper.classList.add('bg-light')
+    wrapper.classList.add('song-present')
+    wrapper.setAttribute('id', params['trackId'])
     wrapper.addEventListener("click", (e) => {
         $("#infoModal").modal('show');
         $("#infoModal .modal-title").html(` ${params['trackName']} by ${params['artistName']}`)
@@ -90,15 +90,30 @@ function addSong(params) {
         $("#infoModal .modal-body").html(content)
         $("#infoModal .modal-body").append()
 
-        $("#infoModal").append(new Audio(
-            "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/82/06/b3/8206b3d7-6eab-ce54-a53c-8ae526c9fadc/mzaf_16083715460836642007.plus.aac.p.m4a"
-        ));
-        //var $btn = $('<button type="button" class="btn btn-outline-info" />');
-        //ADD TO STATIC HTML INSTEAD
-        $btn.html("Preview Song")
-        $btn.appendTo($("#infoModal .modal-footer"))
-        $btn.addEventListener("click", (e) => {
-            $("#infoModal ")
+        $("#previewAudio").attr("src", params['previewUrl'])
+        document.getElementById("previewAudio").volume = .1
+
+        $('#previewBtn').on("click", (e) => {
+            if($('#previewBtn').html() == "Preview Song") {
+                document.getElementById("previewAudio").play()
+                $('#previewBtn').html("Stop Preview")
+            }
+            else {
+                document.getElementById("previewAudio").pause()
+                document.getElementById("previewAudio").currentTime = 0
+                $('#previewBtn').html("Preview Song")
+            }
+
+        })
+
+        $('#removeBtn').on("click", (e) => {
+            if($(`#${params['trackId']}`)) {
+                $(`#${params['trackId']}`).remove();
+            }
+            num_songs--;
+            if(num_songs <= 0) {
+                showSubmitButton(false);
+            }
         })
     })
     const img_src = params['artworkUrl100'];
@@ -120,6 +135,17 @@ function addSong(params) {
     wrapper.appendChild(song_tag)
     wrapper.appendChild(artist_tag)
     document.getElementById("song-picks").appendChild(wrapper);
+
+    showSubmitButton(true);
     
     num_songs++;
+}
+
+function showSubmitButton(toshow) {
+    if(toshow) {
+        $('#submitBtn').removeClass('d-none')
+    }
+    else {
+        $('#submitBtn').addClass('d-none')
+    }
 }

@@ -19,9 +19,17 @@
       </ul>
       <ul class="nav float-right" id="right-bar">
         <script>
-        if(1 == 1) {
-          $("#right-bar").append('<a class="nav-link" href="#">Profile</a>')
-        }
+          axios
+          .get("/")
+          .then(res => {
+              console.log("NUTS")
+          })
+          .catch(error => {
+            console.error(error);
+          })
+          if(1 == 1) {
+            $("#right-bar").append('<a class="nav-link" href="#">Profile</a>')
+          }
       </script>
       </ul>
     </div>

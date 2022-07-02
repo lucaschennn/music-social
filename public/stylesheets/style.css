@@ -19,3 +19,7 @@ a {
 #search-btn {
   max-height: 36;
 }
+
+.song-present {
+  cursor: pointer;
+}
