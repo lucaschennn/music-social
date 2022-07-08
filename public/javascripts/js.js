@@ -2,6 +2,7 @@ const searchWrapper = document.querySelector(".input-group")
 const inputBox = searchWrapper.querySelector("input");
 const suggBox = searchWrapper.querySelector("list-group");
 let num_songs = 0;
+let songs_list = [];
 //function $(x) {return document.getElementById(x);} 
 
 
@@ -109,8 +110,14 @@ function addSong(params) {
         $('#removeBtn').on("click", (e) => {
             if($(`#${params['trackId']}`)) {
                 $(`#${params['trackId']}`).remove();
+                let victim = songs_list.indexOf(params);
+                if (victim > -1) {
+                    songs_list.splice(victim);
+                    num_songs--;
+                }
+
             }
-            num_songs--;
+
             if(num_songs <= 0) {
                 showSubmitButton(false);
             }
@@ -138,6 +145,7 @@ function addSong(params) {
 
     showSubmitButton(true);
     
+    songs_list.push(params);
     num_songs++;
 }
 
@@ -148,4 +156,19 @@ function showSubmitButton(toshow) {
     else {
         $('#submitBtn').addClass('d-none')
     }
+}
+
+$('#submitBtn').on('click', () => submitEntry(songs_list));
+
+//callback for submit button click
+function submitEntry(songs) {
+    //1. put current entry into object
+    //2. call /api/user/idk USER IS DB ENDPOINTS AND STUFF
+    const cur_time = new Date().getTime()
+    axios.get("")
+    axios
+        .patch("http://localhost:3000/users/update-songs", {songs: songs, time: cur_time})
+        .catch(error => {
+            console.error(error.message)
+          })
 }

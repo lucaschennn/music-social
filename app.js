@@ -4,6 +4,8 @@ var cookieParser = require('cookie-parser');
 const { auth, requiresAuth } = require('express-openid-connect');
 var logger = require('morgan');
 
+var bodyParser = require("body-parser");
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 //var loginRouter = require('./routes/login.js')
@@ -33,6 +35,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use('/users', usersRouter);
 //app.use('/login', loginRouter)
 

@@ -13,6 +13,7 @@
     "express-openid-connect": "^2.7.3",
     "morgan": "~1.9.1",
     "pug": "^3.0.2",
-    "side-channel": "^1.0.4"
+    "side-channel": "^1.0.4",
+    "sqlite3": "^5.0.8"
   }
 }

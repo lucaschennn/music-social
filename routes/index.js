@@ -14,7 +14,17 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', (req, res) => {
   if (req.oidc.isAuthenticated()) {
+    const cur_user = req.oidc.user
     data = {href: "/profile", message: "Profile"}
+    axios
+      .post("http://localhost:3000/users/create-user", {
+        "name": cur_user.nickname,
+        "username": cur_user.nickname,
+        "email": cur_user.email
+      })
+      .catch(error => {
+        console.error(error.message)
+      })
   }
   else {
     data = {href: "/login", message: "Login/Register"}
@@ -27,8 +37,8 @@ router.get('/test', (req, res) => {
 })
 
 router.get('/profile', (req, res) => {
-  res.send(JSON.stringify(req.oidc.user, null, 2));
-  console.log(res.locals)
+  res.send(JSON.stringify(req.oidc.user));
+
 });
 
 router.get('/songs-list', (req, res) => {
@@ -57,6 +67,7 @@ router.get('/song-info', (req, res) => {
 router.get('/login', (req, res) => {
   res.render();
 })
+
 
 router.use(express.static('public'))
 module.exports = router;
