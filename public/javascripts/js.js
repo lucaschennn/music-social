@@ -16,7 +16,7 @@ searchWrapper.addEventListener("mouseleave", () => {
 function updateSearch(e) {
     let songs = [];
     input = e.target.value;
-    if(input.length > 2) {
+    if(input.length >= 2) {
         axios
         .get("/songs-list", {params: {"term":input}})
         .then(res => {
@@ -165,10 +165,39 @@ function submitEntry(songs) {
     //1. put current entry into object
     //2. call /api/user/idk USER IS DB ENDPOINTS AND STUFF
     const cur_time = new Date().getTime()
+    const text_entry = $("#form-content").val()
+
     axios.get("")
     axios
-        .patch("http://localhost:3000/users/update-songs", {songs: songs, time: cur_time})
+        .patch("http://localhost:3000/users/update-songs", {
+            songs: songs, time: cur_time, description: text_entry
+        })
         .catch(error => {
             console.error(error.message)
           })
 }
+
+$('#text-btn').on('click', (e) => {
+    if($('#text-box').hasClass('d-none')) {
+        $('#text-box').removeClass('d-none')
+        $('#text-btn').html("Remove text")
+    }
+    else {
+        $('#text-box').addClass('d-none')
+        $('#text-btn').html("Add optional text")
+        $('#form-content').val("")
+    }
+
+    /*
+    var textbox = document.createElement('div');
+    textbox.setAttribute('id', 'text-box')
+    document.getElementById("text-placeholder").appendChild(textbox)
+    $('#text-box').addClass("form-group")
+    $('#text-box').append('<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"placeholder="ex. Some Miley to power through the day"></textarea>')
+    $('#text-box').appendTo($("#text-placeholder"))
+    console.log($('#text-box'))
+    console.log(textbox)
+    //$('#text-placeholder').add(textbox)
+
+    **/
+})

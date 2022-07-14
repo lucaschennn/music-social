@@ -69,6 +69,21 @@ router.get('/:userid', (req, res) => {
   })
 })
 
+router.get('/email/:email', (req, res) => {
+  var sql = "select * from user where email = ?"
+  var params = [req.params.email]
+  db.get(sql, params, (err, row) => {
+      if (err) {
+          res.status(400).json({"error":err.message})
+          return;
+        }
+        console.log(row)
+        res.json({
+          "data":row
+        })
+  })
+})
+
 router.patch("/update-songs", (req, res, next) => {
   var new_post = req.body
   var email = req.oidc.user.email

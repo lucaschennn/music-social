@@ -37,9 +37,13 @@ router.get('/test', (req, res) => {
 })
 
 router.get('/profile', (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
-
+  //res.send(JSON.stringify(req.oidc.user));
+  res.render('profile.pug', {href: "/profile", message: "Profile", name: req.oidc.user.nickname})
 });
+
+router.get('/user_profile', (req, res) => {
+  res.send(JSON.stringify(req.oidc.user));
+})
 
 router.get('/songs-list', (req, res) => {
   if(req.query.term) {

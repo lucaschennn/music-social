@@ -30,5 +30,23 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     }
 });
 
+db.get_row_from_email = (email) => {
+    var sql = "select * from user where id = ?"
+    db.get(sql, email, (err, row) => {
+        if (err) {
+            res.status(400).json({"error":err.message})
+            return;
+          }
+          console.log(row)
+          res.json({
+            "data":row
+          })
+    })
+}
+
+//db.get_id_from_email
+
+//db.get_row_from_id/email
+
 module.exports = db
 //https://developerhowto.com/2018/12/29/build-a-rest-api-with-node-js-and-express-js/
