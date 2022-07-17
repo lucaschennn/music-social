@@ -3,8 +3,12 @@ extends layout.pug
 block content
     .container.bg-light
         .row.align-items-center
-            h4.display-4 #{name}
-            p bio placeholder
+            .col-10
+                h4.display-4 #{name}
+                p bio placeholder
+            .col-2
+                button#search-btn.btn.btn-primary(type='button') Settings
+                //- open modal
             #post-wrapper.container
 
 //-

@@ -1,11 +1,9 @@
-const searchWrapper = document.querySelector(".input-group")
-const inputBox = searchWrapper.querySelector("input");
-const suggBox = searchWrapper.querySelector("list-group");
+const searchWrapper = document.getElementById("song-input")
+const inputBox = searchWrapper.querySelector("#song-search");
+const suggBox = searchWrapper.querySelector("#autocom-box");
+
 let num_songs = 0;
 let songs_list = [];
-//function $(x) {return document.getElementById(x);} 
-
-
 inputBox.onkeyup = (e) => updateSearch(e);
 inputBox.addEventListener("click", (e) => updateSearch(e));
 //top and bottom change to mouseenter and mouseleave or something
@@ -14,6 +12,7 @@ searchWrapper.addEventListener("mouseleave", () => {
 });
 
 function updateSearch(e) {
+    console.log(inputBox)
     let songs = [];
     input = e.target.value;
     if(input.length >= 2) {
@@ -65,6 +64,36 @@ function showSuggestions(lst) {
         //suggBox.innerHTML = listData;
     }
 }
+
+
+$(document).ready(function() {
+    $('#do-mood-search').on("click", (e) => {
+        $('#do-mood-search').addClass("active")
+        $('#do-song-search').removeClass("active")
+
+        $('#mood-input').removeClass("d-none")
+        $('#song-input').addClass("d-none")
+
+    })
+    $('#do-song-search').on("click", (e) => {
+        $('#do-song-search').addClass("active")
+        $('#do-mood-search').removeClass("active")
+
+
+        $('#song-input').removeClass("d-none")
+        $('#mood-input').addClass("d-none")
+    })
+})
+
+
+
+
+
+
+
+
+
+
 function millisToMins(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
@@ -175,6 +204,9 @@ function submitEntry(songs) {
         .catch(error => {
             console.error(error.message)
           })
+    window.location.reload();
+    alert("Songs successfully added!")
+
 }
 
 $('#text-btn').on('click', (e) => {

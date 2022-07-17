@@ -14,7 +14,7 @@ function postData(data) {
         return posts
     })
     .then(res => { // res equals posts
-        for (let i = 0; i < JSON.parse(res).length; i++) {
+        for (let i = JSON.parse(res).length - 1; i >= 0; i--) {
             createPost(JSON.parse(res)[i], i)
         }
     })
@@ -27,6 +27,12 @@ function createPost(post, count) { // {description: str, songs: arr, time: ms}
     var time = formatMS(post.time)
     var header = $(`<div id='date-wrapper-${count}' class='row align-items-top'> </div>`)
     var date = $(`<h6 class='display-6'> ${time} </h6>`)
+    if(post.description) {
+        var description = $(`<p class='text-muted'> ${post.description} </p>`)
+    }
+    header.append(date)
+    header.append(description)
+        
     for (const song of post.songs) {
         var wrapper = $(`<div id='song-${count}' class='col-2'> </div>`)
         var img = $(`<img src=${song.artworkUrl100}>`)
@@ -39,7 +45,6 @@ function createPost(post, count) { // {description: str, songs: arr, time: ms}
         header.append(wrapper)
 
     }
-    header.append(date)
     $('#post-wrapper').append(header)
 }
 

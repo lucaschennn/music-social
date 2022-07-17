@@ -7,8 +7,8 @@
 const path = require("path");
 const { request } = require('express');
 const axios = require('axios');
+const fs = require('fs');
 var express = require('express');
-const e = require("express");
 var router = express.Router();
 
 /* GET home page. */
@@ -45,6 +45,10 @@ router.get('/user_profile', (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
 })
 
+router.get('/listen', (req, res) => {
+  res.render('listen.pug')
+})
+
 router.get('/songs-list', (req, res) => {
   if(req.query.term) {
     const url = "https://itunes.apple.com/search"; //{'term': term, 'media': 'music'}
@@ -72,6 +76,51 @@ router.get('/login', (req, res) => {
   res.render();
 })
 
+router.get('/song-moods', (req, res) => {
+  fs.readFile("./resources/mood_catalog.json", "utf8", function(err, data) {
+    res.json(data)
+  })
+})
+
+router.patch('/song-moods', (req, res) => {
+  var errors=[]
+  if (!req.body.songid){
+      errors.push("No song specified");
+  }
+  if (!req.body.moods){
+      errors.push("No moods selected");
+  }
+  if (errors.length){
+      res.status(400).json({"error":errors.join(",")});
+      return;
+  }
+  var params = {
+      id: req.body.songid,
+      moods: req.body.moods
+  }
+  fs.readFile("./resources/mood_catalog.json", "utf8", function(err, data) {
+    JSONsongs = JSON.parse(data);
+    for(const song of JSONsongs.songs) {
+      console.table([song.trackId, params.id])
+      if(song.trackId == params.id) {
+        for(const mood of params.moods) {
+          if(mood in song.moods) {
+            song.moods[mood] += 1
+          }
+          else {
+            song.moods[mood] = 1
+          }
+        }
+        fs.writeFile("./resources/mood_catalog.json", JSON.stringify(JSONsongs), function (err) {
+          if (err) throw err;
+        })
+
+      }
+    }
+    console.error("404 Song not found!")
+  })
+//FS STREAM OF MOOD_CATALOG MIGHT IMPACT THE REQUIRING OF THAT SAME FILE
+})
 
 router.use(express.static('public'))
 module.exports = router;

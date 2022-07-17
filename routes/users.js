@@ -62,7 +62,6 @@ router.get('/:userid', (req, res) => {
       res.status(400).json({"error":err.message})
       return;
     }
-    console.log(row)
     res.json({
       "data":row
     })
@@ -77,7 +76,6 @@ router.get('/email/:email', (req, res) => {
           res.status(400).json({"error":err.message})
           return;
         }
-        console.log(row)
         res.json({
           "data":row
         })

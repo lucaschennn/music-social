@@ -6,13 +6,29 @@ block content
       .col-8
         h2.display-2
           | My mood
-        .input-group.py-5
+        #toggle-search.btn-group.btn-group-toggle(data-toggle='buttons')
+          label#do-song-search.btn.btn-secondary.active
+            input#option1(type='radio' name='options' autocomplete='off' checked='')
+            |  Song Search
+          label#do-mood-search.btn.btn-secondary
+            input#option2(type='radio' name='options' autocomplete='off')
+            |  Mood Search
+        #mood-input.input-group.my-2.d-none
           .form-outline
-            input#song-search.form-control(type='search')
+            input#mood-search.form-control(type='search',placeholder="Search by mood")
+            #autocom-box-mood.list-group
+              //
+                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+          button#song-search-btn.btn.btn-primary(type='button')
+            span
+              img#search-icon(src='./images/search_icon.png')
+        #song-input.input-group.my-2
+          .form-outline
+            input#song-search.form-control(type='search',placeholder="Search by song")
             #autocom-box.list-group
               //
                 <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-          button#search-btn.btn.btn-primary(type='button')
+          button#song-search-btn.btn.btn-primary(type='button')
             span
               img#search-icon(src='./images/search_icon.png')
         #song-picks.row.align-items-top
@@ -30,7 +46,7 @@ block content
                 button#previewBtn.btn.btn-outline-info(type="button") Preview Song
               audio#previewAudio(preload='auto')
       .col-4
+        #text-btn.button.btn.btn-primary(type="button") Add description
         #text-box.form-group.d-none
           textarea#form-content.form-control(rows="3",placeholder="text")
-        #text-btn.button.btn.btn-primary(type="button") Add optional text
 
