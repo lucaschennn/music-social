@@ -2,44 +2,54 @@ extends layout.pug
 
 block content
     .container.bg-light
-        #song-wrapper.col-2.mx-auto
-            h5 The Chain 
-            h6.text-muted By Fleetwood Mac
-            img(src="https://is4-ssl.mzstatic.com/image/thumb/Music124/v4/4d/13/ba/4d13bac3-d3d5-7581-2c74-034219eadf2b/081227970949.jpg/100x100bb.jpg")
+        .row.justify-content-center
+            #song-wrapper.col-2
+                h5.text-center The Chain 
+                h6.text-center.text-muted By Fleetwood Mac
+                img#cover(src="https://is4-ssl.mzstatic.com/image/thumb/Music124/v4/4d/13/ba/4d13bac3-d3d5-7581-2c74-034219eadf2b/081227970949.jpg/100x100bb.jpg")
+                button#play-btn.btn.btn-info-outline(state="paused")
+                    span
+                        img#play-btn-img(src='./images/play_button.ico')
+                .slide-container
+                    input#volume.slider(type="range" min="0" max="100" value="50")
+                audio#previewAudio(preload='auto')
         #mood-wrapper.d-flex.justify-content-center 
             btn-group.btn-group-toggle(data-toggle='buttons')
-                .col.d-flex.justify-content-center 
-                    label.btn.btn-primary
-                        input(type='checkbox' name='options' autocomplete='off')
+                .col.d-flex.justify-content-center.py-2
+                    label#joy.btn.btn-outline-primary
+                        input#asdf(type='checkbox' name='options' autocomplete='off')
                         |   Joy
-                    label.btn.btn-primary
+                    label#sad.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Sad
-                    label.btn.btn-primary
+                    label#stressed.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Stressed
-                    label.btn.btn-primary
+                    label#anger.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Anger
-                    label.btn.btn-primary
+                    label#confidence.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Confidence
-                    label.btn.btn-primary
+                    label#shame.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Shame
                 .col.d-flex.justify-content-center 
-                    label.btn.btn-primary
+                    label#jealousy.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Jealousy
-                    label.btn.btn-primary
+                    label#loneliness.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Loneliness
-                    label.btn.btn-primary
+                    label#fear.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Fear
-                    label.btn.btn-primary
+                    label#relaxed.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Relaxed
-                    label.btn.btn-primary
+                    label#surprise.btn.btn-outline-primary
                         input(type='checkbox' name='options' autocomplete='off')
                         |   Surprise
+        h5#dyn-text.text-muted.d-flex.justify-content-center This song makes me feel
+        .text-center
+            button#submit-btn.btn.btn-success.d-none Submit

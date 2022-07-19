@@ -46,7 +46,13 @@ router.get('/user_profile', (req, res) => {
 })
 
 router.get('/listen', (req, res) => {
-  res.render('listen.pug')
+  if (req.oidc.isAuthenticated()) {
+    res.render('listen.pug', {href: "/profile", message: "Profile"})
+  }
+  else {
+    res.redirect("/login")
+    //res.render('login', {href: "/login", message: "Login/Register"})
+  }
 })
 
 router.get('/songs-list', (req, res) => {
