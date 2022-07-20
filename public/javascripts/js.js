@@ -213,17 +213,24 @@ $('#text-btn').on('click', (e) => {
         $('#text-btn').html("Add optional text")
         $('#form-content').val("")
     }
+})
 
-    /*
-    var textbox = document.createElement('div');
-    textbox.setAttribute('id', 'text-box')
-    document.getElementById("text-placeholder").appendChild(textbox)
-    $('#text-box').addClass("form-group")
-    $('#text-box').append('<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"placeholder="ex. Some Miley to power through the day"></textarea>')
-    $('#text-box').appendTo($("#text-placeholder"))
-    console.log($('#text-box'))
-    console.log(textbox)
-    //$('#text-placeholder').add(textbox)
-
-    **/
+$('.btn-outline-primary.mood-btn').each((index, value) => {
+    $(value).on("click", (e) => {
+        moodz = []
+        $('.btn-outline-primary').each((index, i_value) => {
+            if($(i_value).children().is(':checked')) {
+                $('#dyn-text').append(" " + i_value.id)
+                moodz.push(i_value.id)
+            }
+        })
+        console.log(moodz)
+        if(moodz.length) {
+            axios
+            .get("/song-moods", {params: {"moods": moodz}})
+            .then(res => {
+                console.log(res.data)
+            })
+        }
+    })
 })

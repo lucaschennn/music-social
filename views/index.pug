@@ -14,14 +14,43 @@ block content
             input#option2(type='radio' name='options' autocomplete='off')
             |  Mood Search
         #mood-input.input-group.my-2.d-none
-          .form-outline
-            input#mood-search.form-control(type='search',placeholder="Search by mood")
-            #autocom-box-mood.list-group
-              //
-                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-          button#song-search-btn.btn.btn-primary(type='button')
-            span
-              img#search-icon(src='./images/search_icon.png')
+          #mood-wrapper.d-flex.justify-content-center 
+            btn-group.btn-group-toggle(data-toggle='buttons')
+                .col.d-flex.justify-content-center.py-2
+                    label#joy.btn.btn-outline-primary.mood-btn
+                        input#asdf(type='checkbox' name='options' autocomplete='off')
+                        |   Joy
+                    label#sad.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Sad
+                    label#stressed.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Stressed
+                    label#anger.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Anger
+                    label#confidence.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Confidence
+                    label#shame.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Shame
+                .col.d-flex.justify-content-center 
+                    label#jealousy.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Jealousy
+                    label#loneliness.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Loneliness
+                    label#fear.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Fear
+                    label#relaxed.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Relaxed
+                    label#surprise.btn.btn-outline-primary.mood-btn
+                        input(type='checkbox' name='options' autocomplete='off')
+                        |   Surprise
         #song-input.input-group.my-2
           .form-outline
             input#song-search.form-control(type='search',placeholder="Search by song")

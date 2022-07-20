@@ -10,6 +10,8 @@ axios
     console.error(error);
 })
 
+
+
 function displaySong(data) {
 
     const songs = JSON.parse(data).songs
@@ -25,7 +27,7 @@ function displaySong(data) {
 }
 
 
-$('.btn-outline-primary').each((index, value) => {
+$('[class=".btn-outline-primary"]').each((index, value) => {
     $(value).on("click", (e) => {
         $('#dyn-text').text("This song makes me feel")
         moodz = []

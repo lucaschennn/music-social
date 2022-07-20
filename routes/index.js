@@ -83,9 +83,56 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/song-moods', (req, res) => {
-  fs.readFile("./resources/mood_catalog.json", "utf8", function(err, data) {
-    res.json(data)
-  })
+  if(!req.query.moods) {
+    fs.readFile("./resources/mood_catalog.json", "utf8", function(err, data) {
+      console.log(req.query)
+      res.json(data)
+    })
+  }
+  else {
+    fs.readFile("./resources/mood_catalog.json", "utf8", function(err, data) {
+      dataJSON = JSON.parse(data);
+      let to_return = {}
+      for(song of dataJSON.songs) {
+        const arrIntersect = req.query.moods.every(value => {
+          let score = 0
+          if(song.moods[value]) {
+            score += song.moods[value]
+          }
+          return Object.keys(song.moods).includes(value)
+        })
+        if(arrIntersect) {
+          let score = 0
+          for(mood of req.query.moods) {
+            score += song.moods[mood]
+          }
+
+          if(score in to_return) {
+            to_return[score].push(song)
+          }
+          else {
+            to_return[score] = [song]
+          }
+        }
+/*
+        for(mood of req.query.moods) {
+          if(mood in song.moods) {
+            if(song.moods[mood] in to_return) {
+              let count = song.moods[mood]
+              to_return[count].push(song)
+            }
+            else{
+              let count = song.moods[mood]
+              to_return[count] = [song]
+            }
+          }
+        }
+**/
+      }
+
+      res.json(to_return)
+    })
+  }
 })
 
 router.patch('/song-moods', (req, res) => {
