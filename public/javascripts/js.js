@@ -46,6 +46,12 @@ function showSuggestions(lst) {
             tag.secret = lst[i];
             tag.addEventListener("click", (e) => {
                 console.log(e.target.secret)
+                for(let i = 0; i < songs_list.length; i++) {
+                    if(songs_list[i]['trackId'] == e.target.secret['trackId']) {
+                        console.log("song already added")
+                        return
+                    }
+                }
                 addSong(e.target.secret);
             });
 
@@ -82,6 +88,7 @@ $(document).ready(function() {
 
         $('#song-input').removeClass("d-none")
         $('#mood-input').addClass("d-none")
+        $('#mood-sugg').empty()
     })
 })
 
@@ -130,6 +137,7 @@ function addSong(params) {
 
         })
 
+        $('#removeBtn').html("Remove Song")
         $('#removeBtn').on("click", (e) => {
             if($(`#${params['trackId']}`)) {
                 $(`#${params['trackId']}`).remove();
@@ -229,8 +237,68 @@ $('.btn-outline-primary.mood-btn').each((index, value) => {
             axios
             .get("/song-moods", {params: {"moods": moodz}})
             .then(res => {
-                console.log(res.data)
+                $('#mood-sugg').empty()
+                showMoodSuggestions(res.data)
             })
         }
     })
+
 })
+
+function showMoodSuggestions(data) {
+    for(const [i1, key] of Object.keys(data).sort().reverse().entries()) {
+        for(const [i2, song] of data[key].entries()) {
+            console.log(song)
+            let wrapper = $(`<div id=sugg-${i1}-${i2} class='col'> </div>`)
+            let img = $(`<img src=${song['artworkUrl60']}>`) //if too big do 30
+            let text = $(`<p><strong>${song['trackName']}</strong>
+                                <br> ${song['artistName']}
+                            </p>`)
+            wrapper.append(img)
+            wrapper.append(text)
+    
+            $('#mood-sugg').append(wrapper)
+            let $moodModal = $("#infoModal").clone();
+            $moodModal.attr("id", "moodModal")
+            $moodModal.find("#removeBtn").attr("id", "addBtn")
+            wrapper.on("click", (e) => {
+                $moodModal.modal('show')
+                $("#moodModal .modal-title").html(` ${song['trackName']} by ${song['artistName']}`)
+
+                let date = new Date(song['releaseDate']);
+                let content = `Album: ${song['collectionName']} <br> Release: ${date.toDateString()}
+                    <br> Length: ${millisToMins(song['trackTimeMillis'])}`
+                $("#moodModal .modal-body").html(content)
+                $("#moodModal .modal-body").append()
+
+                $("#moodModal #previewAudio").attr("src", song['previewUrl'])
+                $("#moodModal #previewAudio")[0].volume = .1 //problem line
+        
+                $('#moodModal #previewBtn').on("click", (e) => {
+                    if($('#moodModal #previewBtn').html() == "Preview Song") {
+                        $("#moodModal #previewAudio")[0].play()//problem line
+                        $('#moodModal #previewBtn').html("Stop Preview")
+                    }
+                    else {
+                        $("#moodModal #previewAudio")[0].pause()//problem line
+                        document.getElementById("previewAudio").currentTime = 0
+                        $('#moodModal #previewBtn').html("Preview Song")
+                    }
+        
+                })
+
+            })
+            $moodModal.find('#addBtn').html("Add Song")
+            $moodModal.find('#addBtn').on("click", (e) => {
+                for(let i = 0; i < songs_list.length; i++) {
+                    if(songs_list[i]['trackId'] == song['trackId']) {
+                        console.log("song already added")
+                        return
+                    }
+                }
+                addSong(song)
+            })
+        }
+
+    }
+}

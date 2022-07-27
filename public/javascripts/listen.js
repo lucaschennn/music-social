@@ -27,7 +27,7 @@ function displaySong(data) {
 }
 
 
-$('[class=".btn-outline-primary"]').each((index, value) => {
+$('.btn-mood-select').each((index, value) => {
     $(value).on("click", (e) => {
         $('#dyn-text').text("This song makes me feel")
         moodz = []

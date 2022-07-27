@@ -46,3 +46,5 @@ jsonObj = json.loads(f.read())
 #to revert mood_catalog.json, copy paste {"songs": []}
 for song in jsonObj["data"]:
     writeToFile("mood_catalog.json", getSongObj(song["songTitle"], song["artistTitle"]))
+
+f.close()

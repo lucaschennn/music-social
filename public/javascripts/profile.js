@@ -35,7 +35,7 @@ function createPost(post, count) { // {description: str, songs: arr, time: ms}
         
     for (const song of post.songs) {
         var wrapper = $(`<div id='song-${count}' class='col-2'> </div>`)
-        var img = $(`<img src=${song.artworkUrl100}>`)
+        var img = $(`<img src=${song.artworkUrl60}>`)
         var name = $(`<h5> ${song.trackName} </h5>`)
         var artist = $(`<h6 class='text-muted'> ${song.artistName} </h6`)
 
